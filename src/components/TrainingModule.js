@@ -14,7 +14,7 @@ export default function TrainingModule({ module, theme }) {
           {module.level}
         </span>
         <span className={`text-sm ${isDark ? 'text-muted' : 'text-muted-light'}`}>
-          ⏱️ {module.duration}
+          {module.duration}
         </span>
       </div>
       <h3 className={`text-2xl mb-3 font-bold ${isDark ? 'text-primary' : 'text-primary-light'}`}>
