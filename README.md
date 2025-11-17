@@ -16,7 +16,7 @@
 - [Features](#-features)
 - [Technologies Used](#-technologies-used)
 - [API Documentation](#-api-documentation)
-- [Screenshots](#-screenshots)s)
+- [Screenshots](#-screenshots)
 
 ---
 
