@@ -12,20 +12,11 @@
 ## 📑 Table of Contents
 
 - [Project Overview](#-project-overview)
+- [Team Contribution](#-team-contribution)
 - [Features](#-features)
 - [Technologies Used](#-technologies-used)
-- [Project Structure](#-project-structure)
-- [Setup Instructions](#-setup-instructions)
 - [API Documentation](#-api-documentation)
-- [Screenshots](#-screenshots)
-- [LocalStorage & Persistence](#-localstorage--persistence)
-- [Firebase Integration](#-firebase-integration)
-- [Responsive Design](#-responsive-design)
-- [Contributions](#-contributions)
-- [Challenges & Solutions](#-challenges--solutions)
-- [Future Enhancements](#-future-enhancements)
-- [License](#-license)
-- [Acknowledgments](#-acknowledgments)
+- [Screenshots](#-screenshots)s)
 
 ---
 
