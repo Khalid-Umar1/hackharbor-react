@@ -1,24 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Home from './pages/Home';
+import Events from './pages/Events';
+import Training from './pages/Training';
+import CTF from './pages/CTF';
+import AboutUs from './pages/AboutUs';
+import Login from './pages/Login';
+import GitHubUserSearch from './components/GitHubUserSearch';
 
 function App() {
+  const [theme, setTheme] = useState('dark');
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(savedTheme);
+    document.body.className = savedTheme;
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+    document.body.className = newTheme;
+  };
+
+  const isDark = theme === 'dark';
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className={`min-h-screen flex flex-col ${theme}`}>
+        <Header theme={theme} toggleTheme={toggleTheme} />
+        <div className={isDark ? 'bg-bg-dark' : 'bg-bg-light'}>
+          <Routes>
+            <Route path="/" element={<Home theme={theme} />} />
+            <Route path="/events" element={<Events theme={theme} />} />
+            <Route path="/training" element={<Training theme={theme} />} />
+            <Route path="/ctf" element={<CTF theme={theme} />} />
+            <Route path="/about" element={<AboutUs theme={theme} />} />
+            <Route path="/login" element={<Login theme={theme} />} />
+            <Route path="/github-search" element={
+              <main className={`min-h-screen py-16 ${isDark ? 'bg-bg-dark' : 'bg-bg-light'}`}>
+                <div className="container mx-auto px-5">
+                  <GitHubUserSearch theme={theme} />
+                </div>
+              </main>
+            } />
+          </Routes>
+        </div>
+        <Footer theme={theme} />
+      </div>
+    </Router>
   );
 }
 

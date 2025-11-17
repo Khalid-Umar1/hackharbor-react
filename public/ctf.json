@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "SQL Slayer",
+    "category": "Web",
+    "difficulty": "Hard"
+  },
+  {
+    "id": 2,
+    "name": "Cookie Monster",
+    "category": "Web",
+    "difficulty": "Easy"
+  },
+  {
+    "id": 3,
+    "name": "CryptoCracker",
+    "category": "Crypto",
+    "difficulty": "Medium"
+  },
+  {
+    "id": 4,
+    "name": "Stego Hunt",
+    "category": "Forensics",
+    "difficulty": "Easy"
+  },
+  {
+    "id": 5,
+    "name": "Packet Puzzle",
+    "category": "Network",
+    "difficulty": "Medium"
+  },
+  {
+    "id": 6,
+    "name": "Binary Beast",
+    "category": "Reverse",
+    "difficulty": "Hard"
+  },
+  {
+    "id": 7,
+    "name": "Log Leak",
+    "category": "Forensics",
+    "difficulty": "Medium"
+  },
+  {
+    "id": 8,
+    "name": "Password Phreak",
+    "category": "Crypto",
+    "difficulty": "Hard"
+  }
+]

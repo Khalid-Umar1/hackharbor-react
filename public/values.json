@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "title": "Learning",
+    "description": "Continuous education through hands-on practice and real-world scenarios."
+  },
+  {
+    "id": 2,
+    "title": "Ethical Hacking",
+    "description": "Responsible security research within legal and ethical boundaries."
+  },
+  {
+    "id": 3,
+    "title": "Security",
+    "description": "Building robust defenses through understanding attack methodologies."
+  },
+  {
+    "id": 4,
+    "title": "Community",
+    "description": "Fostering collaboration and knowledge sharing among security professionals."
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Muhammad Talha",
+    "role": "Pentesting Expert",
+    "description": "10+ years in offensive security, specializing in web application penetration testing and red team operations. Former OSCP and OSCE holder."
+  },
+  {
+    "id": 2,
+    "name": "Khalid Umar",
+    "role": "Security Analyst",
+    "description": "SOC team lead with expertise in incident response, threat hunting, and digital forensics. CISSP certified with focus on enterprise security."
+  },
+  {
+    "id": 3,
+    "name": "Muhammad Ayyan",
+    "role": "Platform Developer",
+    "description": "Full-stack developer passionate about cybersecurity education. Builds scalable learning platforms and interactive security challenges."
+  }
+]

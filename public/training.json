@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "title": "Pentesting",
+    "description": "Hands-on labs to learn offensive hacking and vulnerability exploitation. Practice real-world attack techniques in controlled environments."
+  },
+  {
+    "id": 2,
+    "title": "Security Analyst",
+    "description": "Learn SOC operations, incident response, and monitoring tools. Build skills in threat detection and security operations center workflows."
+  },
+  {
+    "id": 3,
+    "title": "Network Security",
+    "description": "Master firewalls, IDS/IPS, and secure network design. Understand network protocols and implement robust security architectures."
+  },
+  {
+    "id": 4,
+    "title": "Forensics",
+    "description": "Investigate breaches, analyze logs, and recover digital evidence. Learn to trace attacks and preserve evidence for legal proceedings."
+  }
+]
