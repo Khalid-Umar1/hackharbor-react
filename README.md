@@ -100,7 +100,7 @@
 
 ---
 
-### Team Member 2: [Member 2 Name]
+### Muhammad Ayyan
 
 **Role**: Content Pages Developer
 
@@ -138,7 +138,7 @@
 
 ---
 
-### Team Member 3: [Member 3 Name]
+### Muhammad Talha
 
 **Role**: Interactive Features Developer
 
