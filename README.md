@@ -95,9 +95,6 @@
 - Environment variables configuration (`.env`)
 - Connection testing and debugging
 
-**Lines of Code**: ~1,200+  
-**Time Invested**: ~22 hours
-
 ---
 
 ### Muhammad Ayyan
@@ -132,9 +129,6 @@
 - Responsive design for About and Training pages
 - Theme integration (dark/light mode support)
 - Hover effects and animations
-
-**Lines of Code**: ~900+  
-**Time Invested**: ~18 hours
 
 ---
 
