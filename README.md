@@ -230,6 +230,18 @@
 
 ---
 
+### API Documentation
+- Create a .env file in the project's root directory.
+- Add your Firebase credentials from the previous step.
+-# .env
+-REACT_APP_FIREBASE_API_KEY=your_firebase_api_key_here
+-REACT_APP_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+-REACT_APP_FIREBASE_PROJECT_ID=your-project-id
+-REACT_APP_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+-REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+-REACT_APP_FIREBASE_APP_ID=your_app_id
+
+---
 ### Screen Shots
 - **Home**
 ![alt text](image.png)
