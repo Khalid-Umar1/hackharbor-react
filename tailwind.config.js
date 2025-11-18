@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Dark mode colors (UNCHANGED - your original theme)
+        // Dark mode colors
         'bg-dark': '#0a0e27',
         'card': '#1a1f3a',
         'brand': '#2a3f5f',
