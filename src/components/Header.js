@@ -1,18 +1,29 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Header({ theme, toggleTheme }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
 
   const isDark = theme === 'dark';
+
+  const handleLogout = () => {
+    logout();
+    setIsMenuOpen(false);
+    navigate('/');
+  };
 
   return (
     <header className={`sticky top-0 z-50 border-b-2 ${isDark ? 'bg-bg-dark border-brand' : 'bg-white border-brand-light shadow-md'}`}>
       <div className="container mx-auto px-5 py-4 flex justify-between items-center">
         <div className="logo">
-          <h1 className={`text-3xl font-bold ${isDark ? 'text-primary' : 'text-primary-light'}`}>
-            HackHarbor
-          </h1>
+          <Link to="/">
+            <h1 className={`text-3xl font-bold ${isDark ? 'text-primary' : 'text-primary-light'}`}>
+              HackHarbor
+            </h1>
+          </Link>
         </div>
         
         {/* Theme Toggle Button */}
@@ -36,44 +47,93 @@ export default function Header({ theme, toggleTheme }) {
         </button>
         
         <nav className={`${isMenuOpen ? 'block' : 'hidden'} md:block absolute md:relative top-full left-0 right-0 md:top-auto border-t md:border-0 ${
-          isDark ? 'bg-bg-dark border-brand' : 'bg-white border-brand-light'
+          isDark ?  'bg-bg-dark border-brand' : 'bg-white border-brand-light'
         }`}>
-          <ul className="flex flex-col md:flex-row gap-0 md:gap-8">
-            <li className={`border-b md:border-0 ${isDark ? 'border-card' : 'border-brand-light'}`}>
-              <Link to="/" className={`block px-5 py-3 md:p-0 transition-colors ${
-                isDark ? 'text-text hover:text-accent' : 'text-text-light hover:text-accent-light'
+          <ul className="flex flex-col md:flex-row md:items-center gap-0 md:gap-6">
+            <li className={`border-b md:border-0 ${isDark ?  'border-card' : 'border-brand-light'}`}>
+              <Link to="/" onClick={() => setIsMenuOpen(false)} className={`block px-5 py-3 md:p-0 transition-colors ${
+                isDark ?  'text-text hover:text-accent' : 'text-text-light hover:text-accent-light'
               }`}>Home</Link>
             </li>
+            
+            {isAuthenticated && (
+              <li className={`border-b md:border-0 ${isDark ? 'border-card' : 'border-brand-light'}`}>
+                <Link to="/dashboard" onClick={() => setIsMenuOpen(false)} className={`block px-5 py-3 md:p-0 transition-colors ${
+                  isDark ?  'text-text hover:text-accent' : 'text-text-light hover:text-accent-light'
+                }`}>Dashboard</Link>
+              </li>
+            )}
+            
             <li className={`border-b md:border-0 ${isDark ? 'border-card' : 'border-brand-light'}`}>
-              <Link to="/events" className={`block px-5 py-3 md:p-0 transition-colors ${
+              <Link to="/events" onClick={() => setIsMenuOpen(false)} className={`block px-5 py-3 md:p-0 transition-colors ${
                 isDark ? 'text-text hover:text-accent' : 'text-text-light hover:text-accent-light'
               }`}>Events</Link>
             </li>
             <li className={`border-b md:border-0 ${isDark ? 'border-card' : 'border-brand-light'}`}>
-              <Link to="/training" className={`block px-5 py-3 md:p-0 transition-colors ${
+              <Link to="/training" onClick={() => setIsMenuOpen(false)} className={`block px-5 py-3 md:p-0 transition-colors ${
                 isDark ? 'text-text hover:text-accent' : 'text-text-light hover:text-accent-light'
               }`}>Training</Link>
             </li>
-            <li className={`border-b md:border-0 ${isDark ? 'border-card' : 'border-brand-light'}`}>
-              <Link to="/ctf" className={`block px-5 py-3 md:p-0 transition-colors ${
+            <li className={`border-b md:border-0 ${isDark ?  'border-card' : 'border-brand-light'}`}>
+              <Link to="/ctf" onClick={() => setIsMenuOpen(false)} className={`block px-5 py-3 md:p-0 transition-colors ${
                 isDark ? 'text-text hover:text-accent' : 'text-text-light hover:text-accent-light'
               }`}>CTF</Link>
             </li>
-            <li className={`border-b md:border-0 ${isDark ? 'border-card' : 'border-brand-light'}`}>
-              <Link to="/about" className={`block px-5 py-3 md:p-0 transition-colors ${
+            <li className={`border-b md:border-0 ${isDark ?  'border-card' : 'border-brand-light'}`}>
+              <Link to="/about" onClick={() => setIsMenuOpen(false)} className={`block px-5 py-3 md:p-0 transition-colors ${
                 isDark ? 'text-text hover:text-accent' : 'text-text-light hover:text-accent-light'
-              }`}>About us</Link>
+              }`}>About</Link>
             </li>
-            <li className={`border-b md:border-0 ${isDark ? 'border-card' : 'border-brand-light'}`}>
-              <Link to="/github-search" className={`block px-5 py-3 md:p-0 transition-colors ${
-                isDark ? 'text-text hover:text-accent' : 'text-text-light hover:text-accent-light'
-              }`}>GitHub Search</Link>
-            </li>
-            <li>
-              <Link to="/login" className={`block px-5 py-3 md:p-0 transition-colors ${
-                isDark ? 'text-text hover:text-accent' : 'text-text-light hover:text-accent-light'
-              }`}>Login/Sign-up</Link>
-            </li>
+            
+            {/* Conditional Login/Logout */}
+            {isAuthenticated ?  (
+              <>
+                <li className={`border-b md:border-0 ${isDark ?  'border-card' : 'border-brand-light'}`}>
+                  <Link 
+                    to="/profile" 
+                    onClick={() => setIsMenuOpen(false)} 
+                    className={`block px-5 py-3 md:p-0 transition-colors ${
+                      isDark ? 'text-accent hover:text-primary' : 'text-accent-light hover:text-primary-light'
+                    }`}
+                  >
+                    👤 {user?.name || 'Profile'}
+                  </Link>
+                </li>
+                <li>
+                  <button 
+                    onClick={handleLogout}
+                    className={`block w-full text-left px-5 py-3 md:px-4 md:py-2 md:rounded-lg transition-all ${
+                      isDark 
+                        ? 'text-error hover:bg-error/20' 
+                        : 'text-error hover:bg-error/10'
+                    }`}
+                  >
+                    🚪 Logout
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className={`border-b md:border-0 ${isDark ?  'border-card' : 'border-brand-light'}`}>
+                  <Link to="/login" onClick={() => setIsMenuOpen(false)} className={`block px-5 py-3 md:p-0 transition-colors ${
+                    isDark ? 'text-text hover:text-accent' : 'text-text-light hover:text-accent-light'
+                  }`}>Login</Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/signup" 
+                    onClick={() => setIsMenuOpen(false)} 
+                    className={`block px-5 py-3 md:px-4 md:py-2 md:rounded-lg font-medium transition-all ${
+                      isDark 
+                        ? 'md:bg-accent md:text-bg-dark md:hover:bg-primary text-accent' 
+                        : 'md:bg-accent-light md:text-white md:hover:bg-primary-light text-accent-light'
+                    }`}
+                  >
+                    Sign Up
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
       </div>

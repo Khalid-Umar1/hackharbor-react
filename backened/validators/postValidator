@@ -1,0 +1,13 @@
+const Joi = require('joi');
+
+exports.postCreate = Joi.object({
+  title: Joi.string().max(200).required(),
+  body: Joi.string().required(),
+  tags: Joi.array().items(Joi.string()).optional()
+});
+
+exports.postUpdate = Joi.object({
+  title: Joi.string().max(200).optional(),
+  body: Joi.string().optional(),
+  tags: Joi.array().items(Joi.string()).optional()
+});

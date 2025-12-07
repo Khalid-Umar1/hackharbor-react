@@ -1,35 +1,37 @@
 import { useState } from 'react';
-import { addDoc, collection } from 'firebase/firestore';
-import { db } from '../services/firebase';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Login({ theme }) {
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: ''
   });
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({
-    username: '',
+    email: '',
     password: ''
   });
+  
   const isDark = theme === 'dark';
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
-  // Validate form fields
   const validateForm = () => {
     let isValid = true;
-    const newErrors = { username: '', password: '' };
+    const newErrors = { email: '', password: '' };
 
-    if (!formData.username.trim()) {
-      newErrors.username = 'Username is required';
+    if (! formData.email. trim()) {
+      newErrors.email = 'Email is required';
       isValid = false;
-    } else if (formData.username.trim().length < 3) {
-      newErrors.username = 'Username must be at least 3 characters';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors. email = 'Please enter a valid email';
       isValid = false;
     }
 
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors. password = 'Password is required';
       isValid = false;
     } else if (formData.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
@@ -41,40 +43,48 @@ export default function Login({ theme }) {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e. preventDefault();
     setMessage('');
-    
+
     if (!validateForm()) {
       setMessage('Please fix the errors below');
       return;
     }
-    
+
     setLoading(true);
-    
+
     try {
-      const docRef = await addDoc(collection(db, 'logins'), {
-        username: formData.username.trim(),
-        password: formData.password,
-        timestamp: new Date().toISOString(),
-        loginDate: new Date().toLocaleString('en-US', { 
-          timeZone: 'UTC',
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit'
-        })
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData. email. trim(),
+          password: formData.password
+        }),
       });
+
+      const data = await response.json();
+
+      if (! response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
+      // Save token and user data
+      login(data.token, data.user);
       
-      console.log('Document written with ID: ', docRef.id);
-      setMessage('Login submitted successfully!');
-      setFormData({ username: '', password: '' });
-      setErrors({ username: '', password: '' });
+      setMessage('Login successful! Redirecting...');
+      setFormData({ email: '', password: '' });
       
+      // Redirect to dashboard after 1. 5 seconds
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 1500);
+
     } catch (error) {
-      console.error('Firebase Error:', error);
-      setMessage('Error: ' + error.message);
+      console.error('Login Error:', error);
+      setMessage('Error: ' + error. message);
     } finally {
       setLoading(false);
     }
@@ -83,7 +93,7 @@ export default function Login({ theme }) {
   const handleInputChange = (field, value) => {
     setFormData({ ...formData, [field]: value });
     if (errors[field]) {
-      setErrors({ ...errors, [field]: '' });
+      setErrors({ ... errors, [field]: '' });
     }
   };
 
@@ -94,40 +104,40 @@ export default function Login({ theme }) {
       <div className="container mx-auto px-5">
         <div className="max-w-md mx-auto">
           <div className={`rounded-2xl p-12 hover:-translate-y-0.5 transition-all shadow-lg ${
-            isDark 
-              ? 'bg-card border border-brand hover:border-accent hover:shadow-accent/10' 
+            isDark
+              ?  'bg-card border border-brand hover:border-accent hover:shadow-accent/10'
               : 'bg-white border border-brand-light hover:border-accent-light hover:shadow-accent-light/20'
           }`}>
             <h2 className={`text-3xl font-bold text-center mb-8 ${isDark ? 'text-primary' : 'text-primary-light'}`}>
               Login to HackHarbor
             </h2>
-            
+
             <form onSubmit={handleSubmit} className="flex flex-col gap-6" noValidate>
               <div className="flex flex-col gap-2">
-                <label htmlFor="username" className={`font-medium text-sm uppercase tracking-wider ${
-                  isDark ? 'text-text' : 'text-text-light'
+                <label htmlFor="email" className={`font-medium text-sm uppercase tracking-wider ${
+                  isDark ?  'text-text' : 'text-text-light'
                 }`}>
-                  Username or Email <span className="text-error">*</span>
+                  Email Address <span className="text-error">*</span>
                 </label>
                 <input
-                  type="text"
-                  id="username"
-                  value={formData.username}
-                  onChange={(e) => handleInputChange('username', e.target.value)}
-                  placeholder="Enter your username or email"
+                  type="email"
+                  id="email"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  placeholder="Enter your email"
                   className={`border-2 rounded-lg px-4 py-3 transition-all ${
-                    errors.username 
-                      ? 'border-error' 
-                      : isDark 
-                        ? 'bg-bg-dark border-brand text-text placeholder-muted focus:border-accent' 
+                    errors.email
+                      ? 'border-error'
+                      : isDark
+                        ?  'bg-bg-dark border-brand text-text placeholder-muted focus:border-accent'
                         : 'bg-white border-brand-light text-text-light placeholder-muted-light focus:border-accent-light'
-                  } focus:outline-none focus:ring-4 ${isDark ? 'focus:ring-accent/10' : 'focus:ring-accent-light/10'}`}
+                  } focus:outline-none focus:ring-4 ${isDark ?  'focus:ring-accent/10' : 'focus:ring-accent-light/10'}`}
                 />
-                {errors.username && (
-                  <p className="text-error text-sm mt-1">⚠️ {errors.username}</p>
+                {errors.email && (
+                  <p className="text-error text-sm mt-1">⚠️ {errors.email}</p>
                 )}
               </div>
-              
+
               <div className="flex flex-col gap-2">
                 <label htmlFor="password" className={`font-medium text-sm uppercase tracking-wider ${
                   isDark ? 'text-text' : 'text-text-light'
@@ -141,10 +151,10 @@ export default function Login({ theme }) {
                   onChange={(e) => handleInputChange('password', e.target.value)}
                   placeholder="Enter your password"
                   className={`border-2 rounded-lg px-4 py-3 transition-all ${
-                    errors.password 
-                      ? 'border-error' 
-                      : isDark 
-                        ? 'bg-bg-dark border-brand text-text placeholder-muted focus:border-accent' 
+                    errors.password
+                      ? 'border-error'
+                      : isDark
+                        ? 'bg-bg-dark border-brand text-text placeholder-muted focus:border-accent'
                         : 'bg-white border-brand-light text-text-light placeholder-muted-light focus:border-accent-light'
                   } focus:outline-none focus:ring-4 ${isDark ? 'focus:ring-accent/10' : 'focus:ring-accent-light/10'}`}
                 />
@@ -152,40 +162,40 @@ export default function Login({ theme }) {
                   <p className="text-error text-sm mt-1">⚠️ {errors.password}</p>
                 )}
               </div>
-              
+
               <button
                 type="submit"
                 disabled={loading}
                 className={`px-8 py-3 text-lg font-bold rounded-lg transition-all mt-4 ${
-                  isDark 
-                    ? 'bg-accent text-bg-dark hover:bg-primary hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30' 
+                  isDark
+                    ? 'bg-accent text-bg-dark hover:bg-primary hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30'
                     : 'bg-accent-light text-white hover:bg-primary-light hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent-light/30'
                 } disabled:opacity-50`}
               >
-                {loading ? 'Submitting...' : 'Login'}
+                {loading ? 'Logging in...' : 'Login'}
               </button>
-              
+
               {message && (
                 <div className={`text-center p-3 rounded-lg font-medium ${
-                  message.includes('Error') || message.includes('fix') 
-                    ? 'bg-error/20 text-error border border-error' 
-                    : isDark 
-                      ? 'bg-accent/20 text-accent border border-accent' 
+                  message.includes('Error') || message.includes('fix')
+                    ? 'bg-error/20 text-error border border-error'
+                    : isDark
+                      ?  'bg-accent/20 text-accent border border-accent'
                       : 'bg-accent-light/20 text-accent-light border border-accent-light'
                 }`}>
-                  {message.includes('successfully') ? '✅ ' : '❌ '}
+                  {message.includes('successful') ? '✅ ' : '❌ '}
                   {message}
                 </div>
               )}
-              
+
               <div className="text-center mt-6">
-                <p className={`text-sm ${isDark ? 'text-muted' : 'text-muted-light'}`}>
-                  Don't have an account?{' '}
-                  <a href="#" className={`font-medium transition-colors ${
+                <p className={`text-sm ${isDark ?  'text-muted' : 'text-muted-light'}`}>
+                  Don't have an account? {' '}
+                  <Link to="/signup" className={`font-medium transition-colors ${
                     isDark ? 'text-accent hover:text-primary' : 'text-accent-light hover:text-primary-light'
                   } hover:underline`}>
                     Sign up here
-                  </a>
+                  </Link>
                 </p>
               </div>
             </form>
