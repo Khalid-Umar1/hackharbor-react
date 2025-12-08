@@ -1,5 +1,6 @@
 const Post = require('../models/Post');
 const catchAsync = require('../utils/catchAsync');
+const { sendPostCreatedNotification } = require('../utils/emailService');
 
 // @desc    Get all posts with search, filter, sort, pagination
 // @route   GET /api/posts
@@ -143,6 +144,9 @@ exports.createPost = catchAsync(async (req, res) => {
   });
 
   await post.populate('author', 'name email');
+
+  // Send admin notification about new post (async, don't wait)
+  sendPostCreatedNotification(post, post.author).catch(err => console.error('Admin notification error:', err));
 
   res.status(201).json({
     success: true,

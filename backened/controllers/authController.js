@@ -2,7 +2,7 @@ const User = require('../models/User');
 const Post = require('../models/Post');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { sendWelcomeEmail } = require('../utils/emailService');
+const { sendWelcomeEmail, sendNewUserNotification } = require('../utils/emailService');
 
 // Generate JWT Token
 const generateToken = (id) => {
@@ -38,7 +38,10 @@ const register = async (req, res, next) => {
     const token = generateToken(user._id);
 
     // Send welcome email (async, don't wait)
-    sendWelcomeEmail(user). catch(err => console.error('Email error:', err));
+    sendWelcomeEmail(user).catch(err => console.error('Email error:', err));
+    
+    // Send admin notification about new user (async, don't wait)
+    sendNewUserNotification(user).catch(err => console.error('Admin notification error:', err));
 
     res.status(201).json({
       success: true,
